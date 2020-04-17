@@ -1,0 +1,98 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'/>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+	<title>Instagram Line Break Generator | Made your post more beauty</title>
+	<meta name="description" content="Add line breaks to your captions easily. Just paste or write your text here. Then press Fix Line Breaks button and copy your text to the Instagram post.">
+
+</head>
+<body>
+<div class="container">
+	<div style="padding-top: 5%;"></div>
+	<div class="heading">
+		<h2>Instagram Line Break Caption Generator</h2>
+		<small>Make your Instagram bio or post caption more beauty with the line break</small>
+	</div>
+
+	<div class="card" style="width: 100%;max-width: 33rem; margin-left: auto; margin-right: auto; height: auto; ">
+		<div class="card-body">
+			<div class="form-group">
+				<textarea class="form-control" id="text" rows="15" placeholder="Paste or write your text here"></textarea>
+				<span id="hasil" class="small text-success" style="display: none"><i class="far fa-check-circle"></i> converted</span>
+				<small class="d-inline-block float-right"><span class="text-muted"><span id="counter">0</span>/2200</span></small>
+			</div>
+			<div class="card-body" style="text-align: center;">
+				<button id="copy" class="btn btn-success btn-sm"><i class="far fa-copy"></i> Copy to Clipboard</button>
+				<br>
+				<small class="d-inline-block" style="margin-top: 2px"><a id="hapus" href="javascript:void(0)"><i class="fa fa-trash"></i> clear</a></small>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="footer">
+		<p class="text-muted text-center">Made with <span style="color: red;"><i class="fa fa-heart"></i></span> by <a href="https://www.masgimenz.com">masgimenz</a></p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+<script type="text/javascript">
+jQuery(function ($) {
+	$('#copy').click(function () {
+		if (isOS()) {
+			var textArea = document.getElementById('text');
+			var range = document.createRange();
+			var selection = window.getSelection();
+			range.selectNodeContents(textArea);
+			selection.removeAllRanges();
+			selection.addRange(range);
+			textArea.setSelectionRange(0, 999999);
+
+		} else {
+			$('#text').select();
+			document.execCommand('copy');
+		}
+	});
+	$('#hapus').click(function eraseText() {
+	document.getElementById("text").value = "";
+	});
+
+	$('#text').attr('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;').on('input change', function () {
+		this.style.height = 'auto';
+		this.style.height = (this.scrollHeight) + 'px';
+		var text = $(this).val();
+
+		if (!text || (text.match(/\n/g) && text.match(/\u2800\n/g) && text.match(/\n/g).length !== text.match(/\u2800\n/g).length)) {
+			$('#hasil').hide();
+		}
+
+		text = text.replace(/\u2800/g, '');
+		text = text.replace(/\n/g, "\u2800\n");
+		$(this).val(text);
+
+		localStorage.setItem('text', text)
+		$('#counter').text(text.length)
+
+		if (text && text.match(/\n/g) && text.match(/\u2800\n/g) && text.match(/\n/g).length === text.match(/\u2800\n/g).length) {
+			$('#hasil').fadeIn();
+		}
+	});
+
+});
+
+function isOS() {
+	return navigator.userAgent.match(/ipad|iphone/i);
+}
+</script>
+
+</body>
+</html>
